@@ -21,13 +21,13 @@
     Example:
 
     過長的程式碼和缺少空白符號
-    ```
+    ```scala
     if(p(this.head))this.tail.filter0(p, accu.incl(this.head))else this.tail.filter0
       (p, accu)
     ```
 
     較好的方式:
-    ```
+    ```scala
     if (p(this.head))
       this.tail.filter0(p, accu.incl(this.head))
     else
@@ -35,7 +35,7 @@
     ```
     
     更好的方式:(請看第4點和第6點)
-    ```
+    ```scala
     val newAccu = 
       if (p(this.head)) accu.incl(this.head)
       else accu  
@@ -54,7 +54,7 @@ Method, fields 和 values 在選擇名稱時必須要很小心，以便讓代碼
 Method 名字必須要清楚表示出這個 method 在做什麼。No 或 temp 就永遠都不會是好的名字 :)
 
     下面這些是可以改進的例子
-    ```
+    ```scala
     val temp = sortFunction0(list.head, tweet) // sortFunction0 是在做什麼呢?
     def temp(first: TweetSet, second: TweetSet):TweetSet = ...
     def un(th: TweetSet, acc: TweetSet): TweetSet = ...
@@ -67,13 +67,13 @@ Method 名字必須要清楚表示出這個 method 在做什麼。No 或 temp �
 6. 常見的子表達示
 
     你必須要避免不必要的計算密集性的 method, 例如:
-    ```
+    ```scala
     this.remove(this.findMin).ascending(t + this.findMin)
     ```
 
     呼叫 `this.findMin` 兩次，如果每一次的呼叫都是昂貴的並且又都沒有副作用(side-effect), 你可以藉由 local variable 來節省一次的呼叫
 
-    ```
+    ```scala
     val min = this.findMin
     this.remove(min).ascending(t + min)
     ```
@@ -91,13 +91,13 @@ Method 名字必須要清楚表示出這個 method 在做什麼。No 或 temp �
     + 你必須將共同的部分分解成單獨的 method 而不是複製代碼
 
     例如:
-     ```
+     ```scala
      val googleTweets: TweetSet = TweetReader.allTweets.filter(tweet =>  google.exists( word => tweet.text.contains(word)))
      val appleTweets: TweetSet = TweetReader.allTweets.filter(tweet => apple.exists(word => tweet.text.contains(word)))
      ```
 
     將代碼改寫成下面這樣更好:
-    ```
+    ```scala
     def tweetsMentioning(dictionary: List[String]): TweetSet = 
       TweetReader.allTweets.filter(tweet => 
         dictionary.exists(word => tweet.text.contains(word)))
@@ -116,7 +116,7 @@ Method 名字必須要清楚表示出這個 method 在做什麼。No 或 temp �
 
     在Scala中，您通常不需要使用顯式返回，因為控制結構（如if）是表達式。例如，在
 
-    ```
+    ```scala
     def factorial(n: Int): Int = {
       if (n <= 0) return 1
     else return (n * factorial(n-1))
@@ -128,7 +128,7 @@ Method 名字必須要清楚表示出這個 method 在做什麼。No 或 temp �
 
     由於這是一個關於函數式編程的課程，我們希望你習慣於用純粹的函數式編寫代碼，而不使用副作用操作。你經常可以將使用可變局部變量的代碼重寫為使用帶有累加器的輔助函數的代碼。下面這段代碼
 
-    ```
+    ```scala
     def fib(n: Int): Int = {
       var a = 0
       var b = 0
@@ -143,7 +143,7 @@ Method 名字必須要清楚表示出這個 method 在做什麼。No 或 temp �
     }
     ```
     可以被這段代碼取代
-    ```
+    ```scala
     def fib(n: Int): Int = {
       def fibInter(i: int, a:Int, b:Int): Int = 
         if (i == n) a else fibInter(i+1, b, a+b)
@@ -154,10 +154,10 @@ Method 名字必須要清楚表示出這個 method 在做什麼。No 或 temp �
 12. 消除多餘的 if 表達示
 
     這段代碼
-    ```
+    ```scala
     if (cond) true else false
     ```
     可以簡化成這段
-    ```
+    ```scala
     cond
     ```
